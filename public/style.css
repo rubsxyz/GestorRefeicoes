@@ -1,0 +1,15 @@
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+button.btn-primary {
+  width: 100%;
+}

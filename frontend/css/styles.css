@@ -1,0 +1,31 @@
+html,
+body {
+  height: 100%;
+}
+.task-info {
+  display: flex;
+  gap: 10px; /* Adds some space between the status and date badges */
+  align-items: center; /* Ensures vertical alignment */
+  margin-bottom: 10px; /* Adds space between the task details and buttons */
+}
+
+.btn-group-sm > .btn {
+  padding: 0.25rem 0.5rem; /* Adjust padding to make buttons look consistent */
+  font-size: 0.875rem; /* Adjust font size */
+  line-height: 1.25; /* Adjust line height */
+}
+
+.task-details {
+  display: inline-block;
+  margin-left: 10px; /* Optional: to add some space from the title/description */
+}
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-group {
+  margin-left: auto; /* This pushes the buttons to the far right */
+}

@@ -1,13 +1,37 @@
 const express = require('express');
-const path = require('path');
+const cors = require('cors');
+const sqlite3 = require('sqlite3').verbose();
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(cors());
 
-// Add more routes here
+app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+const db = new sqlite3.Database('database.db');
+
+// Rota para inserir uma nova refeição (POST)
+app.post('/api/refeicoes', (req, res) => {
+  const {usuario_id, data, refeicao} = req.body;
+
+  if (!usuario_id || !data || !refeicao) {
+    return res.status(400).json({error: 'Todos os campos são obrigatórios'});
+  }
+
+  const query = `INSERT INTO refeicoes (usuario_id, data, refeicao) VALUES (?, ?, ?)`;
+  const params = [usuario_id, data, refeicao];
+
+  db.run(query, params, function (err) {
+    if (err) {
+      return res.status(500).json({error: err.message});
+    }
+    res.json({
+      message: 'Refeição inserida com sucesso',
+      id: this.lastID,
+    });
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });

@@ -1,15 +1,16 @@
 body {
-  font-family: 'Arial', sans-serif;
+  background-color: #f7f7f7;
 }
 
-.container {
+h1,
+h2 {
+  color: #333;
+}
+
+table {
   margin-top: 20px;
 }
 
-.navbar {
-  margin-bottom: 20px;
-}
-
-button.btn-primary {
-  width: 100%;
+#formAgendamento {
+  margin-bottom: 30px;
 }

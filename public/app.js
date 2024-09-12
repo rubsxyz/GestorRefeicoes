@@ -1,51 +1,94 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const formAgendamento = document.getElementById('formAgendamento');
-  const resultadoDiv = document.getElementById('resultado');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const bookingSection = document.getElementById('bookingSection');
+  const loginSection = document.getElementById('loginSection');
 
-  // Quando o formulário for enviado
-  formAgendamento.addEventListener('submit', function (e) {
-    e.preventDefault();
-    console.log('Formulário enviado, preventDefault chamado!');
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
 
-    const data = document.getElementById('data').value;
-    const refeicao = document.getElementById('refeicao').value;
-
-    if (!data || !refeicao) {
-      resultadoDiv.innerHTML =
-        "<p class='text-danger'>Por favor, preencha todos os campos!</p>";
-      return;
-    }
-
-    // Enviar a requisição POST para o backend
-    fetch('http://localhost:3000/api/refeicoes', {
+    fetch('/api/login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        usuario_id: 1, // user estatico
-        data: data,
-        refeicao: refeicao,
-      }),
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password}),
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro na requisição: ' + response.statusText);
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        if (data.error) {
-          resultadoDiv.innerHTML = `<p class='text-danger'>Erro: ${data.error}</p>`;
+        if (data.success) {
+          window.location.href = '/index.html';
         } else {
-          resultadoDiv.innerHTML = `<p class='text-success'>Refeição agendada com sucesso! ID: ${data.id}</p>`;
-          formAgendamento.reset();
+          alert('Login Failed: ' + data.message);
         }
       })
-      .catch((error) => {
-        console.error('Erro:', error);
-        resultadoDiv.innerHTML =
-          "<p class='text-danger'>Ocorreu um erro ao tentar agendar a refeição.</p>";
-      });
+      .catch((error) => console.error('Error:', error));
+  });
+
+  registerForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    fetch('/api/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = '/index.html';
+        } else {
+          alert('Registration Failed: ' + data.message);
+        }
+      })
+      .catch((error) => console.error('Error:', error));
+  });
+});
+document.addEventListener('DOMContentLoaded', function () {
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = '/index.html';
+        } else {
+          alert('Login Failed: ' + data.message);
+        }
+      })
+      .catch((error) => console.error('Error:', error));
+  });
+
+  registerForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    fetch('/api/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, password}),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = '/index.html';
+        } else {
+          alert('Registration Failed: ' + data.message);
+        }
+      })
+      .catch((error) => console.error('Error:', error));
   });
 });

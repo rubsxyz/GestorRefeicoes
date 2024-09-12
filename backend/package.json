@@ -2,13 +2,15 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.0",
+    "express-session": "^1.18.0",
     "sqlite3": "^5.1.7"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

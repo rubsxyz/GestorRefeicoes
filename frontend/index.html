@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Task Management Application</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <!-- This will be displayed when the user is logged out -->
+            <li class="nav-item" id="signup-item">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Sign Up</button>
+            </li>
+
+            <!-- This section will be displayed when the user is logged in -->
+            <li class="nav-item" id="user-info" style="display: none">
+              <a class="nav-link">
+                <img src="https://robohash.org/johndoe" alt="User Avatar" class="rounded-circle" width="30" />
+                <span id="username-display"></span>
+              </a>
+            </li>
+
+            <!-- Logout button -->
+            <li class="nav-item" id="logout-item" style="display: none">
+              <button class="btn btn-danger" onclick="logoutUser()">Logout</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Login Section -->
+    <div class="container mt-5" id="login-container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-4 border border-primary border-2 rounded">
+          <h1 class="text-center">Login</h1>
+          <form id="login-form" class="mt-4" onsubmit="event.preventDefault(); loginUser();">
+            <div class="form-group mb-3">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" required />
+            </div>
+            <div class="form-group mb-3">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+          <p class="text-center text-muted mt-3">
+            If not registered, please
+            <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">sign up here</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign-Up Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerModalLabel">Sign Up</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="register-form" onsubmit="event.preventDefault(); registerUser();">
+              <div class="form-group mb-3">
+                <label for="reg-username">Username</label>
+                <input type="text" class="form-control" id="reg-username" required />
+              </div>
+              <div class="form-group mb-3">
+                <label for="reg-password">Password</label>
+                <input type="password" class="form-control" id="reg-password" required />
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task Management Section -->
+    <div class="container mt-5" id="task-app-container" style="display: none">
+      <h1 class="text-center title">Task Management Application</h1>
+
+      <!-- Pending Tasks Section -->
+      <h4>Pending Tasks</h4>
+      <ul id="pending-task-list" class="list-group mb-4">
+        <!-- Pending tasks will be inserted here -->
+      </ul>
+
+      <!-- Completed Tasks Section -->
+      <h4>Completed Tasks</h4>
+      <ul id="completed-task-list" class="list-group">
+        <!-- Completed tasks will be inserted here -->
+      </ul>
+
+      <button class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#taskModal">Add Task</button>
+    </div>
+
+    <!-- Task Modal (for both Add and Edit) -->
+    <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="taskModalLabel">Add Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="task-form" onsubmit="event.preventDefault(); addTask();">
+              <input type="hidden" id="task-id" />
+              <div class="form-group">
+                <label for="task-title">Title</label>
+                <input type="text" class="form-control" id="task-title" required />
+              </div>
+              <div class="form-group">
+                <label for="task-desc">Description</label>
+                <textarea class="form-control" id="task-desc" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="task-status">Status</label>
+                <select class="form-control" id="task-status">
+                  <option value="pending">Pending</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="task-date">Date</label>
+                <input type="date" class="form-control" id="task-date" required />
+              </div>
+              <button type="submit" class="btn btn-primary">Save Task</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-start fixed-bottom">
+      <div class="text-center p-3">© 2024 Task Management Application. All Rights Reserved.</div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/tasks.js"></script>
+    <script src="js/main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

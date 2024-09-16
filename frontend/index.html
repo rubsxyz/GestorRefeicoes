@@ -1,138 +1,168 @@
 <!DOCTYPE html>
 <html lang="pt">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Gestor de Refeições</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Gesto de Refeições</a>
-        <div class="container-fluid" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item" id="nav-login">
-              <a class="nav-link" href="#" onclick="showLogin()">Login</a>
-            </li>
-            <li class="nav-item" id="nav-register">
-              <a class="nav-link" href="#" onclick="showRegister()">Registar</a>
-            </li>
-            <li class="nav-item d-none" id="nav-logout">
-              <a class="nav-link" href="#" onclick="logout()">Logout</a>
-            </li>
-          </ul>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Gestor de Refeições</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Gesto de Refeições</a>
+                <div class="container-fluid" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item" id="nav-login">
+                            <a class="nav-link" href="#" onclick="showLogin()"
+                                >Login</a
+                            >
+                        </li>
+                        <li class="nav-item" id="nav-register">
+                            <a
+                                class="nav-link"
+                                href="#"
+                                onclick="showRegister()"
+                                >Registar</a
+                            >
+                        </li>
+                        <li class="nav-item d-none" id="nav-logout">
+                            <a class="nav-link" href="#" onclick="logout()"
+                                >Logout</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo -->
+        <div class="container mt-4" id="content">
+            <!-- Formulário de Login -->
+            <div id="login-form" class="d-none">
+                <h2>Login</h2>
+                <form onsubmit="login(event)">
+                    <div class="mb-3">
+                        <label for="login-username" class="form-label"
+                            >Username</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="login-username"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label"
+                            >Password</label
+                        >
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="login-password"
+                            required
+                        />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+
+            <!-- Formulário de Registo -->
+            <div id="register-form" class="d-none">
+                <h2>Registar</h2>
+                <form onsubmit="register(event)">
+                    <div class="mb-3">
+                        <label for="register-username" class="form-label"
+                            >Username</label
+                        >
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="register-username"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label"
+                            >Password</label
+                        >
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="register-password"
+                            required
+                        />
+                    </div>
+                    <button type="submit" class="btn btn-success">
+                        Registar
+                    </button>
+                </form>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard" class="d-none">
+                <div class="dashboard">
+                    <h2>Bem-vindo!</h2>
+                    <button
+                        class="btn btn-primary mb-3"
+                        onclick="showAddBooking()"
+                    >
+                        Adicionar Marcação
+                    </button>
+                </div>
+                <div id="bookings-list"></div>
+            </div>
+
+            <!-- Adicionar/Editar Marcação -->
+            <div id="booking-form" class="d-none">
+                <h2 id="booking-form-title">Adicionar Marcação</h2>
+                <form onsubmit="submitBooking(event)">
+                    <div class="mb-3">
+                        <label for="booking-date" class="form-label"
+                            >Data</label
+                        >
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="booking-date"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="booking-meal" class="form-label"
+                            >Refeição</label
+                        >
+                        <select class="form-control" id="booking-meal" required>
+                            <option value="" disabled selected>
+                                Selecione a refeição
+                            </option>
+                            <option value="Carne">Carne</option>
+                            <option value="Peixe">Peixe</option>
+                            <option value="Opção">Opção</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        Guardar
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="cancelBooking()"
+                    >
+                        Cancelar
+                    </button>
+                </form>
+            </div>
         </div>
-      </div>
-    </nav>
 
-    <!-- Conteúdo -->
-    <div class="container mt-4" id="content">
-      <!-- Formulário de Login -->
-      <div id="login-form" class="d-none">
-        <h2>Login</h2>
-        <form onsubmit="login(event)">
-          <div class="mb-3">
-            <label for="login-username" class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-control"
-              id="login-username"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="login-password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="login-password"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-      </div>
-
-      <!-- Formulário de Registo -->
-      <div id="register-form" class="d-none">
-        <h2>Registar</h2>
-        <form onsubmit="register(event)">
-          <div class="mb-3">
-            <label for="register-username" class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-control"
-              id="register-username"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="register-password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="register-password"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-success">Registar</button>
-        </form>
-      </div>
-
-      <!-- Dashboard -->
-      <div id="dashboard" class="d-none">
-        <div class="dashboard">
-          <h2>Bem-vindo!</h2>
-          <button class="btn btn-primary mb-3" onclick="showAddBooking()">
-            Adicionar Marcação
-          </button>
-        </div>
-        <div id="bookings-list"></div>
-      </div>
-
-      <!-- Adicionar/Editar Marcação -->
-      <div id="booking-form" class="d-none">
-        <h2 id="booking-form-title">Adicionar Marcação</h2>
-        <form onsubmit="submitBooking(event)">
-          <div class="mb-3">
-            <label for="booking-date" class="form-label">Data</label>
-            <input
-              type="date"
-              class="form-control"
-              id="booking-date"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="booking-meal" class="form-label">Refeição</label>
-            <input
-              type="text"
-              class="form-control"
-              id="booking-meal"
-              required
-            />
-          </div>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="cancelBooking()"
-          >
-            Cancelar
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/bookings.js"></script>
-    <script src="js/main.js"></script>
-  </body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="js/auth.js"></script>
+        <script src="js/bookings.js"></script>
+        <script src="js/main.js"></script>
+    </body>
 </html>

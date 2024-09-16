@@ -1,0 +1,10 @@
+#content {
+  max-width: 700px;
+  margin: auto;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
